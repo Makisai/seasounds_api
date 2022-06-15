@@ -1,5 +1,6 @@
 const express = require("express");
 var cors = require("cors");
+const InMemorySessionStore = require("./session_store.js");
 const app = express();
 app.use(express.json());
 const port = 4000;
@@ -10,8 +11,10 @@ const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000"
   }
-});;
+});
+const { v4: uuidv4 } = require('uuid');
 
+let sessionStore = new InMemorySessionStore();
 
 var corsOptions = {
   origin: '*',
@@ -20,8 +23,6 @@ var corsOptions = {
 app.use(cors(corsOptions))
 
 let queue = [];
-let current_socket = null;
-let sockets = {};
 
 const digest = () => {
   item = queue.shift();
@@ -32,14 +33,39 @@ const digest = () => {
 };
 digest();
 
+io.use((socket, next) => {
+  const sessionID = socket.handshake.auth.sessionID;
+  if(sessionID) {
+    //find existing session
+    const session = sessionStore.findSession(sessionID);
+    console.log("Session found:", session)
+    if(session) {
+      socket.sessionID = sessionID;
+      socket.userID = session.userID;
+      console.log(session.userID)
+      return next();
+    }
+  }
+  //create new session
+  socket.sessionID = uuidv4();
+  socket.userID = uuidv4();
+  console.log(socket.userID);
+  next();
+});
+
+
+//send session details to user
 io.on('connection', (socket) => {
   console.log('a user connected');
-  
-  current_socket = socket;
+  sessionStore.saveSession(socket.sessionID, {
+    userID: socket.userID,
+    connected: true,
+  });
 
-  socket.on("new_user", (id) => {
-    sockets[id] = current_socket
-  })
+  socket.emit("session", {
+    sessionID: socket.sessionID,
+    userID: socket.userID,
+  });
 
   socket.on("add_to_queue", (id, soundName) => {
     queue.push({ id: id, soundName: soundName });
