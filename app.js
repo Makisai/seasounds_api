@@ -7,11 +7,15 @@ const port = 4000;
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+const td = require("socket.io-client");
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000"
   }
 });
+
+const socketTd = td("ws://127.0.0.1:6000");
+
 const { v4: uuidv4 } = require('uuid');
 
 let sessionStore = new InMemorySessionStore();
@@ -24,14 +28,15 @@ app.use(cors(corsOptions))
 
 let queue = [];
 
-const digest = () => {
+const digest = (socketTd) => {
   item = queue.shift();
-  setTimeout(digest, 15000);
+  setTimeout(() => digest(socketTd), 15000);
   if (item) {
+    socketTd.emit("play_sound" , item.soundName);
     console.log(`digest: ${item.soundName} from ${item.id}`);
   }
 };
-digest();
+digest(socketTd);
 
 io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
@@ -70,7 +75,7 @@ io.on('connection', (socket) => {
   socket.on("add_to_queue", (id, soundName) => {
     queue.push({ id: id, soundName: soundName });
     console.log(id,soundName);
-    sockets[id].emit("position", queue.length);
+    socket.emit("position", queue.length);
   })
 });
 

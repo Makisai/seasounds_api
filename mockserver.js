@@ -2,17 +2,18 @@ const express = require('express');
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+const port = 6000
 const { Server } = require("socket.io");
 const io = new Server(server);
 
-app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
-});
-
 io.on('connection', (socket) => {
   console.log('a user connected');
-});
 
-server.listen(5000, () => {
-  console.log('listening on *:5000');
+  socket.on('play_sound',(soundName) => {
+    console.log(soundName)
+  })
+})
+
+server.listen(port, () => {
+  console.log(`Mockserver listening on port ${port}`);
 });
