@@ -14,6 +14,18 @@ const io = new Server(server, {
   }
 });
 
+/*import WebSocket from 'ws';
+
+const ws = new WebSocket('ws://80.137.254.29:50000');
+
+ws.on('open', function open() {
+  ws.send('something');
+});
+
+ws.on('message', function message(data) {
+  console.log('received: %s', data);
+});*/
+
 const socketTd = td("ws://127.0.0.1:6000");
 
 const { v4: uuidv4 } = require('uuid');
@@ -34,6 +46,9 @@ const digest = (socketTd) => {
   if (item) {
     socketTd.emit("play_sound" , item.soundName);
     console.log(`digest: ${item.soundName} from ${item.id}`);
+    /*ws.on('open', function open() {
+      ws.send(item.soundName);
+      });*/
   }
 };
 digest(socketTd);
