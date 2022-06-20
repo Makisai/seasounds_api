@@ -7,26 +7,17 @@ const port = 4000;
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
-const td = require("socket.io-client");
+//const td = require("socket.io-client");
 const io = new Server(server, {
   cors: {
     origin: "http://localhost:3000"
   }
 });
 
-/*import WebSocket from 'ws';
+const WebSocket = require('ws')
+const ws = new WebSocket("ws://192.168.2.124:6001"); //touch desiner wlan ip + port
 
-const ws = new WebSocket('ws://80.137.254.29:50000');
-
-ws.on('open', function open() {
-  ws.send('something');
-});
-
-ws.on('message', function message(data) {
-  console.log('received: %s', data);
-});*/
-
-const socketTd = td("ws://127.0.0.1:6000");
+//const socketTd = td("ws://127.0.0.1:6000");
 
 const { v4: uuidv4 } = require('uuid');
 
@@ -34,24 +25,32 @@ let sessionStore = new InMemorySessionStore();
 
 var corsOptions = {
   origin: '*',
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))
 
 let queue = [];
 
-const digest = (socketTd) => {
+//digest für SocketIO
+/*const digest = (socketTd) => {
   item = queue.shift();
   setTimeout(() => digest(socketTd), 15000);
   if (item) {
     socketTd.emit("play_sound" , item.soundName);
     console.log(`digest: ${item.soundName} from ${item.id}`);
-    /*ws.on('open', function open() {
-      ws.send(item.soundName);
-      });*/
   }
 };
-digest(socketTd);
+digest(socketTd);*/
+
+const digest = (WebSocket) => {
+  item = queue.shift();
+  setTimeout(() => digest(WebSocket), 15000);
+  if (item) {
+    console.log(`digest: ${item.soundName} from ${item.id}`);
+    ws.send(item.soundName);
+  }
+};
+digest(WebSocket);
 
 io.use((socket, next) => {
   const sessionID = socket.handshake.auth.sessionID;
