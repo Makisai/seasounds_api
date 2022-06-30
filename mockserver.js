@@ -25,7 +25,6 @@ wss.on('connection', (ws) => {
   ws.on('message', (soundName) =>{
     console.log(soundName)
   })
-
   ws.on('open',() =>{
     console.log("user is connected to WS");
   })

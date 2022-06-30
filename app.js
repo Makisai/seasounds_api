@@ -17,7 +17,7 @@ let sessionStore = new InMemorySessionStore();
 const server = http.createServer(app);
 const frontendIO = new Server(server, {
   cors: {
-    origin: "http://localhost:3000"
+    origin: "http://192.168.2.124:3000"
   }
 });
 
@@ -52,13 +52,15 @@ frontendIO.on('connection', (socket) => {
   console.log('a user connected');
   sessionStore.saveSession(socket.sessionID, {
     userID: socket.userID,
-    connected: true,
+    connected: true
   });
 
   socket.emit("session", {
     sessionID: socket.sessionID,
-    userID: socket.userID,
+    userID: socket.userID
   });
+
+  socket.emit("position", queue.findIndex((item) => item.id == socket.userID));
 
   socket.on("add_to_queue", (id, soundName) => {
     position = queue.findIndex((item) => item.id == id);
@@ -90,6 +92,11 @@ touchDesignerServer.on('connection', (ws) => {
 */
 
 let queue = [
+  {id: 1, soundName: 'rickroll'},
+  {id: 1, soundName: 'rickroll'},
+  {id: 1, soundName: 'rickroll'},
+  {id: 1, soundName: 'rickroll'},
+  {id: 1, soundName: 'rickroll'}
 ];
 
 const digest = () => {
