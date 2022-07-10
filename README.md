@@ -34,7 +34,8 @@ https://github.com/Makisai/seasounds_api
 
 4. 	**Variante A:** Es gibt bereits eine Verbindung: 
 	Die entsprechenden Daten werden weiter genutzt
-  	**Variante B:** Es gibt noch keine Verbindung: 
+  	
+	**Variante B:** Es gibt noch keine Verbindung: 
 	Es wird eine UUID im Backend generiert. Diese wird in den Session 
  	Store geschrieben und auch an den/die Besucher:in übermittelt und 
  	dort auch im local Storage gespeichert. So wird die Session persistiert 
