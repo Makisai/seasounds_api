@@ -1,6 +1,8 @@
 # seasounds_api
 
 ## Einleitung
+In dem Modul Mobile Systeme sollen Studierende ein IT-System mit medien-technischem Bezug in Gruppenarbeit umsetzen. Unser Projekt Sea Sounds hat das Ziel eine Anwendung zu erstellen, in welcher Nutzer:innen die Möglichkeit haben verschiedene Soundeffekte der Unterwasserwelt abzuspielen.
+
 Das Backend ist ein Server, das als Schnittstelle zwischen Frontend Webanwendung und dem TouchDesigner dient. Integraler Bestandteil ist hierbei die Warteschlange, die auf dem Server befüllt und abgearbeitet wird. Dabei kann die Warteschlange über beliebig viele Socket-Verbindungen befüllt werden. Über eine einzelnen Socket Verbindung mit dem TouchDesigner wird diesem jeweils ein Objekt aus der Warteschlange zur Verarbeitung zugesandt.
 
 ## Allgemein
