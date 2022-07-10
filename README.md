@@ -8,10 +8,12 @@ Kommunikation findet über Websockets statt, da dies zum Einen vom ITS Team als 
 
 ## Bibliotheken
 **Express**
-Einfaches und flexibles Node.js-Framework, dass zahlreiche leistungsfähige Features und Funktionen für Webanwendungen bereitstellt
-ws WebSocket
-Einfach zu bedienende WebSocket-Client(TouchDesigner)- und -Server(seasounds-api) -Implementierung
-SocketIO
+- Einfaches und flexibles Node.js-Framework, dass zahlreiche leistungsfähige Features und Funktionen für Webanwendungen bereitstellt
+
+**ws WebSocket**
+- Einfach zu bedienende WebSocket-Client(TouchDesigner)- und -Server(seasounds-api) -Implementierung
+
+**SocketIO**
 Kommunikation zwischen Client (Webseite) und Server (seasounds-api Backend)
 Weniger Overhead als reines WebSocket und dadurch leichter und flexibler nutzbar
 
@@ -25,7 +27,7 @@ https://github.com/Makisai/seasounds_api
 1. 	Besucher:in  betritt die Website
 
 2. 	Es wird über Socket.IO eine Verbindung vom Frontend zum Backend
-hergestellt
+ 	hergestellt
 
 3. 	Im Backend wird geprüft, ob es vom Benutzer:in bereits eine Verbindung 
  	gibt (Überprüfung im Session Store)
@@ -34,10 +36,10 @@ hergestellt
 	Die entsprechenden Daten werden weiter genutzt
 4b.  	Es gibt noch keine Verbindung: 
 	Es wird eine UUID im Backend generiert. Diese wird in den Session 
-Store geschrieben und auch an den/die Besucher:in übermittelt und 
-dort auch im local Storage gespeichert. So wird die Session persistiert 
-und gewährleistet, dass das jede:r Besucher:in eindeutig zugeordnet 
-werden kann
+ 	Store geschrieben und auch an den/die Besucher:in übermittelt und 
+ 	dort auch im local Storage gespeichert. So wird die Session persistiert 
+ 	und gewährleistet, dass das jede:r Besucher:in eindeutig zugeordnet 
+ 	werden kann
 
 5. 	Besucher:in möchte einen Sound abspielen und drückt den entsprechenden  
 	Button
@@ -65,7 +67,9 @@ werden kann
  	Soundnamen des ersten Elements (Index 0) aus der Warteschlange an den 
  	TouchDesigner. Dies geschieht über eine einfache WebSocket Verbindung mit 
  	dem TouchDesigner. Damit dieser Prozess funktioniert muss der
-TouchDesigner, welcher in diesem Fall den Client darstellt, zunächst eine Verbindung zum seasounds-api Backend hergestellt haben. Jedes mal, wenn ein Element auf diese Art und Weise aus der Warteschlange entfernt wird, wird ein Update an alle bestehen Socket.IO Verbindungen gefeuert.
+ 	TouchDesigner, welcher in diesem Fall den Client darstellt, zunächst eine Verbindung zum seasounds-api Backend hergestellt haben. 
+ 	Jedes mal, wenn ein Element auf diese Art und Weise aus der Warteschlange entfernt wird, wird ein Update an alle bestehen Socket.IO 
+ 	Verbindungen gefeuert.
 
 ```
 /*
