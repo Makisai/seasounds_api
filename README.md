@@ -97,8 +97,7 @@ digest();
 9. 	Wird so Warteschlangenplatz  “0” erreicht, so wird “ Dein Sound läuft gerade” 
 	angezeigt.
 
-10.  	Die Dein Sound läuft gerade Meldung wird 10 Sekunden lang angezeigt, 
- 	bevor der Button zum abspielen eines neuen Sounds wieder freigegeben wird.
+10.  	Die Dein Sound läuft gerade Meldung wird 10 Sekunden lang angezeigt, bevor der Button zum abspielen eines neuen Sounds wieder freigegeben wird.
 
 
 ## Warum ist der TouchDesigner der Client?
