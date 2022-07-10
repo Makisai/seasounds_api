@@ -32,10 +32,10 @@ https://github.com/Makisai/seasounds_api
 3. 	Im Backend wird geprüft, ob es vom Benutzer:in bereits eine Verbindung 
  	gibt (Überprüfung im Session Store)
 
-4a. 	Es gibt bereits eine Verbindung: 
+4. 	A) Es gibt bereits eine Verbindung: 
 	Die entsprechenden Daten werden weiter genutzt
 	
-4b.  	Es gibt noch keine Verbindung: 
+4.  	B) Es gibt noch keine Verbindung: 
 	Es wird eine UUID im Backend generiert. Diese wird in den Session 
  	Store geschrieben und auch an den/die Besucher:in übermittelt und 
  	dort auch im local Storage gespeichert. So wird die Session persistiert 
