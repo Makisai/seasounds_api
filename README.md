@@ -21,67 +21,7 @@ Auch für die Arbeit am Backend wurde ein Github Repository erstellt:
 
 https://github.com/Makisai/seasounds_api
 
-Logik & Schnittstellen (verworfen da keine REST Schnittstelle benutzt wurde)
-Obwohl die REST Anbindung verworfen wurde, wurde die grundlegende Logik für die WebSockets übernommen.
-
-APP — SERVER
-Beschreibung
-Type
-Route
-Parameter
-Response
-Sende Sound in die Warteschlange
-POST
-BASE_URL/api/add-to-queue
-sound name
-ID
-
-
-Warteschlangenplatz
-Abfrage der Warteschlange
-GET
-BASE_URL/api/queue/check
-
-
-
-
-Warteschlangenplatz
-Warteschlange leeren
-
-
-
-DELETE
-BASE_URL/api/queue/clear
-
-
-ok
-Sende Sound an die erste Stelle der Warteschlangen
-POST
-BASE_URL/api/queue/add-priority
-sound name ID
-Warteschlangenplatz
-
-
-Tabelle 4.2b: App — Server
-
-SERVER — TOUCHDESIGNER
-Beschreibung
-Type
-Route
-Parameter
-Response
-Schicke Sound an Touch Designer zum Abspielen
-POST
-TOUCH_DESIGNER_URL/api/play
-sound name
-ok
-
-
-Tabelle 4.2c: Server — TouchDesigner
-
-
-
-Ablauf 
+## Ablauf 
 1. 	Besucher:in  betritt die Website
 
 2. 	Es wird über Socket.IO eine Verbindung vom Frontend zum Backend
@@ -109,7 +49,7 @@ werden kann
  	einem Array gespeichert. Außerdem wird dem/der Besucher:in der 
  	jeweilige Warteschlangeplatz mitgeteilt.
 
-
+'''
   socket.on("add_to_queue", (id, soundName) => {
     position = queue.findIndex((item) => item.id == id);
     if (position < 0){
@@ -118,7 +58,7 @@ werden kann
     socket.emit("position", queue.length);
     }
   })
-
+'''
 
 7.  	Sobald sich Elemente im queue Array befinden wird die “digest” Funktion 
  	ausgeführt. Diese Funktion sendet alle 13 Sekunden jeweils den 
@@ -127,6 +67,7 @@ werden kann
  	dem TouchDesigner. Damit dieser Prozess funktioniert muss der
 TouchDesigner, welcher in diesem Fall den Client darstellt, zunächst eine Verbindung zum seasounds-api Backend hergestellt haben. Jedes mal, wenn ein Element auf diese Art und Weise aus der Warteschlange entfernt wird, wird ein Update an alle bestehen Socket.IO Verbindungen gefeuert.
 
+'''
 /*
      DIGEST
 */
@@ -143,7 +84,7 @@ const digest = () => {
   }
 };
 digest();
-
+'''
 
 8.	Der:Die Benutzer:in erhält ein Positionsupdate durch das im Frontend die initiale 
 	Warteschlangeposition um 1 verringert wird.
@@ -151,17 +92,15 @@ digest();
 9. 	Wird so Warteschlangenplatz  “0” erreicht, so wird “ Dein Sound läuft gerade” 
 	angezeigt.
 
-Abbildung 4.2: Sound (Wiedergabe)
-
 10.  	Die “Dein Sound läuft gerade” Meldung wird 10 Sekunden lang angezeigt, 
  	bevor der Button zum abspielen eines neuen Sounds wieder freigegeben wird.
 
 
-Warum ist der TouchDesigner der Client?
+## Warum ist der TouchDesigner der Client?
 Hierbei handelt es sich um eine bewusste Entscheidung, da so keine Konfigurationen zur Portfreigabe am TouchDesigner getroffen werden mussten.
 Diese Entscheidung wurde getroffen als noch davon ausgegangen wurde, dass das Backend im Internet gehostet wird. Somit sollten mögliche Komplikationen umgangen werden, die mit einer Kommunikation vom Internet zum Universitätsnetzwerk einhergegangen wären. 
 
-Refactoring
+## Refactoring
 Eines der Probleme während der Programmierung war das mehrfache Refactoring des Codes zur Kommunikation zwischen TouchDesigner-Backend-Frontend. 
 
 Dies entstand daraus, dass ursprünglich eine REST Schnittstelle geplant war, aber REST und Websocket nicht zusammenpassen. Mit REST hätte jedesmal ein Request erstellt werden müssen, um den aktuellen Warteschlangenplatz zu bekommen. Eine solche Änderung teilt Websocket automatisiert mit. 
