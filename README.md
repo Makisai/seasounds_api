@@ -49,7 +49,7 @@ werden kann
  	einem Array gespeichert. Außerdem wird dem/der Besucher:in der 
  	jeweilige Warteschlangeplatz mitgeteilt.
 
-'''
+```
   socket.on("add_to_queue", (id, soundName) => {
     position = queue.findIndex((item) => item.id == id);
     if (position < 0){
@@ -58,7 +58,7 @@ werden kann
     socket.emit("position", queue.length);
     }
   })
-'''
+```
 
 7.  	Sobald sich Elemente im queue Array befinden wird die “digest” Funktion 
  	ausgeführt. Diese Funktion sendet alle 13 Sekunden jeweils den 
@@ -67,7 +67,7 @@ werden kann
  	dem TouchDesigner. Damit dieser Prozess funktioniert muss der
 TouchDesigner, welcher in diesem Fall den Client darstellt, zunächst eine Verbindung zum seasounds-api Backend hergestellt haben. Jedes mal, wenn ein Element auf diese Art und Weise aus der Warteschlange entfernt wird, wird ein Update an alle bestehen Socket.IO Verbindungen gefeuert.
 
-'''
+```
 /*
      DIGEST
 */
@@ -84,7 +84,7 @@ const digest = () => {
   }
 };
 digest();
-'''
+```
 
 8.	Der:Die Benutzer:in erhält ein Positionsupdate durch das im Frontend die initiale 
 	Warteschlangeposition um 1 verringert wird.
