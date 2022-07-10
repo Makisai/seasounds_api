@@ -34,6 +34,7 @@ https://github.com/Makisai/seasounds_api
 
 4a. 	Es gibt bereits eine Verbindung: 
 	Die entsprechenden Daten werden weiter genutzt
+	
 4b.  	Es gibt noch keine Verbindung: 
 	Es wird eine UUID im Backend generiert. Diese wird in den Session 
  	Store geschrieben und auch an den/die Besucher:in übermittelt und 
